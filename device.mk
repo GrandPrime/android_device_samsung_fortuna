@@ -1,138 +1,311 @@
-# Copyright (C) 2015 The CyanogenMod Project
+#
+# Copyright (C) 2015 The Android Open-Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#      http://www.apache.org/licenses/LICENSE-2.0
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#
 
+
+LOCAL_PATH := device/samsung/fortuna
+$(call inherit-product-if-exists, vendor/samsung/fortuna/fortuna-vendor.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
-# Also get non-open-source specific aspects if available
-$(call inherit-product-if-exists, vendor/samsung/a5ultexx/a5ultexx-vendor.mk)
 
-# call common
-$(call inherit-product, device/samsung/a5ultexx/common.mk)
+#Android EGL implementation
+PRODUCT_PACKAGES += libGLES_android
 
-# Common overlay
-DEVICE_PACKAGE_OVERLAYS += device/samsung/a5ultexx/overlay
+PRODUCT_PACKAGES += libtime_genoff
 
-# Permissions
-PRODUCT_COPY_FILES += \
-    frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
-    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
-    frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
-    frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
-    frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
-    frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
-    frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
-    frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
-    frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
-    packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
-    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
-    frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
-    frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
-    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml
-
-# Boot animation
-TARGET_SCREEN_HEIGHT := 1280
-TARGET_SCREEN_WIDTH := 720
-
-# Screen density
-PRODUCT_AAPT_CONFIG := normal
-PRODUCT_AAPT_PREF_CONFIG := xhdpi
-
-# For TWRP
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/recovery/twrp.fstab:recovery/root/etc/twrp.fstab
-
-# NFC packages
+# ANT+
 PRODUCT_PACKAGES += \
-    libnfc_nci \
-    NfcNci \
-    Tag \
-    com.android.nfc_extras
+	AntHalService \
+	antradio_app \
+	com.dsi.ant.antradio_library \
+	libantradio
 
-# NFC configuration
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/nfc/libnfc-sec.conf:system/etc/libnfc-brcm.conf \
-    $(LOCAL_PATH)/nfc/libnfc-sec-hal.conf:system/etc/libnfc-sec-hal.conf \
-    $(LOCAL_PATH)/nfc/nfcee_access.xml:system/etc/nfcee_access.xml
+# appops
+#PRODUCT_PACKAGES += \
+#	appops_policy.xml
 
-# Audio configuration
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
-    $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
+# Audio
+PRODUCT_PACKAGES += \
+	audio.a2dp.default \
+	audio.primary.msm8916 \
+	audio.r_submix.default \
+	audio.usb.default \
+	audiod \
+	libaudio-resampler \
+	libqcompostprocbundle \
+	libqcomvisualizer \
+	libqcomvoiceprocessing \
+	libtinycompress \
+	tinymix
 
-# Audio calibration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio/acdb/Bluetooth_cal.acdb:system/etc/Bluetooth_cal.acdb \
-    $(LOCAL_PATH)/audio/acdb/General_cal.acdb:system/etc/General_cal.acdb \
-    $(LOCAL_PATH)/audio/acdb/Global_cal.acdb:system/etc/Global_cal.acdb \
-    $(LOCAL_PATH)/audio/acdb/Handset_cal.acdb:system/etc/Handset_cal.acdb \
-    $(LOCAL_PATH)/audio/acdb/Hdmi_cal.acdb:system/etc/Hdmi_cal.acdb \
-    $(LOCAL_PATH)/audio/acdb/Headset_cal.acdb:system/etc/Headset_cal.acdb \
-    $(LOCAL_PATH)/audio/acdb/Speaker_cal.acdb:system/etc/Speaker_cal.acdb \
-    $(LOCAL_PATH)/audio/Tfa9895.cnt:system/etc/Tfa9895.cnt
+	$(LOCAL_PATH)/audio/Bluetooth_cal.acdb:system/etc/Bluetooth_cal.acdb \
+	$(LOCAL_PATH)/audio/General_cal.acdb:system/etc/General_cal.acdb \
+	$(LOCAL_PATH)/audio/Global_cal.acdb:system/etc/Global_cal.acdb \
+	$(LOCAL_PATH)/audio/Handset_cal.acdb:system/etc/Handset_cal.acdb \
+	$(LOCAL_PATH)/audio/Hdmi_cal.acdb:system/etc/Hdmi_cal.acdb \
+	$(LOCAL_PATH)/audio/Headset_cal.acdb:system/etc/Headset_cal.acdb \
+	$(LOCAL_PATH)/audio/Speaker_cal.acdb:system/etc/Speaker_cal.acdb \
+	$(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
+	$(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
+	$(LOCAL_PATH)/audio/libaudioroute.so:system/lib/libaudioroute.so \
+	$(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
-# Media Profile
+# Boot jars
+PRODUCT_BOOT_JARS += \
+	qcmediaplayer \
+	qcom.fmradio
+
+# Camera
+PRODUCT_PACKAGES += \
+	camera.msm8916 \
+	libmm-qcamera
+
+# Charger images
+PRODUCT_PACKAGES += \
+    charger_res_images
+
+# Connectivity Engine support
+PRODUCT_PACKAGES += \
+	libcnefeatureconfig
+
+# Display
+PRODUCT_PACKAGES += \
+	copybit.msm8916 \
+	gralloc.msm8916 \
+	hwcomposer.msm8916 \
+	libtinyxml \
+	memtrack.msm8916
+
+# Ebtables
+PRODUCT_PACKAGES += \
+	ebtables \
+	ethertypes \
+	libebtc
+
+# Filesystem
+PRODUCT_PACKAGES += \
+	make_ext4fs \
+	setup_fs
+
+# FM
+PRODUCT_PACKAGES += \
+	FM2 \
+	FMRecord \
+	libqcomfm_jni \
+	qcom.fmradio
+
+# GPS
 PRODUCT_COPY_FILES += \
-    frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
-    frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
-    $(LOCAL_PATH)/media/media_codecs.xml:system/etc/media_codecs.xml \
-    $(LOCAL_PATH)/media/media_profiles.xml:system/etc/media_profiles.xml
+	$(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
+	$(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
+	$(LOCAL_PATH)/gps/izat.conf:system/etc/izat.conf \
+	$(LOCAL_PATH)/gps/sap.conf:system/etc/sap.conf
+
+PRODUCT_PACKAGES += \
+    gps.msm8916
+
+# Init
+PRODUCT_PACKAGES += \
+	fstab.qcom \
+	init.class_main.sh \
+	init.carrier.rc \
+	init.mdm.sh \
+	init.qcom.bms.sh \
+	init.qcom.class_core.sh \
+	init.qcom.early_boot.sh \
+	init.qcom.factory.sh \
+	init.qcom.syspart_fixup.sh \
+	init.qcom.usb.rc \
+	init.qcom.usb.sh \
+	init.qcom.rc \
+	init.qcom.sh \
+	init.target.rc \
+	ueventd.qcom.rc
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    $(LOCAL_PATH)/keylayout/sec_touchkey.kl:system/usr/keylayout/sec_touchkey.kl \
-    $(LOCAL_PATH)/keylayout/Synaptics_RMI4_TouchPad_Sensor.idc:system/usr/idc/Synaptics_RMI4_TouchPad_Sensor.idc \
-    $(LOCAL_PATH)/keylayout/Synaptics_HID_TouchPad.idc:system/usr/idc/Synaptics_HID_TouchPad.idc
+	$(LOCAL_PATH)/keylayouts/ft5x06_ts.kl:system/usr/keylayout/ft5x06_ts.kl \
+	$(LOCAL_PATH)/keylayouts/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+	$(LOCAL_PATH)/keylayouts/synaptics_dsx.kl:system/usr/keylayout/synaptics_dsx.kl \
+	$(LOCAL_PATH)/keylayouts/synaptics_rmi4_i2c.kl:system/usr/keylayout/synaptics_rmi4_i2c.kl
 
-# Ramdisk
+# Keystore
+PRODUCT_PACKAGES += \
+	keystore.msm8916
+
+# libhealthd.qcom
+PRODUCT_PACKAGES += \
+	libhealthd.qcom
+
+# Lights
+PRODUCT_PACKAGES += \
+	lights.msm8916
+
+# Live Wallpapers
+PRODUCT_PACKAGES += \
+	librs_jni
+
+# macloader
+PRODUCT_PACKAGES += macloader
+
+# Media
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/fstab.qcom:root/fstab.qcom \
-    $(LOCAL_PATH)/rootdir/init.qcom.rc:root/init.qcom.rc \
-    $(LOCAL_PATH)/rootdir/init.qcom.power.rc:root/init.qcom.power.rc \
-    $(LOCAL_PATH)/rootdir/init.qcom.usb.rc:root/init.qcom.usb.rc \
-    $(LOCAL_PATH)/rootdir/ueventd.qcom.rc:root/ueventd.qcom.rc
+	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
+	external/stagefright-plugins/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml \
+	$(LOCAL_PATH)/media/media_codecs.xml:system/etc/media_codecs.xml \
+	$(LOCAL_PATH)/media/media_profiles.xml:system/etc/media_profiles.xml
 
-# Etc scripts
+# MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/rootdir/system/etc/init.crda.sh:system/etc/init.crda.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.audio.sh:system/etc/init.qcom.audio.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/hcidump.sh:system/etc/hcidump.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.sec.boot.sh:system/etc/init.sec.boot.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.coex.sh:system/etc/init.qcom.coex.sh \
-    $(LOCAL_PATH)/rootdir/system/etc/init.qcom.bt.sh:system/etc/init.qcom.bt.sh
+	$(LOCAL_PATH)/configs/msm_irqbalance.conf:system/vendor/etc/msm_irqbalance.conf
 
-# GPS config
+# Misc
+PRODUCT_PACKAGES += \
+	curl \
+	libbson \
+	libcurl \
+	libxml2 \
+	tcpdump
+
+# NFC
+PRODUCT_PACKAGES += \
+	libnfc-nci \
+	NfcNci \
+	Tag \
+	com.android.nfc_extras
+
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
-    $(LOCAL_PATH)/configs/sap.conf:system/etc/sap.conf \
-    $(LOCAL_PATH)/configs/flp.conf:system/etc/flp.conf \
-    $(LOCAL_PATH)/configs/izat.conf:system/etc/izat.conf
+	$(LOCAL_PATH)/nfc/libnfc-sec.conf:system/etc/libnfc-brcm.conf \
+	$(LOCAL_PATH)/nfc/libnfc-sec-hal.conf:system/etc/libnfc-sec-hal.conf \
+	$(LOCAL_PATH)/nfc/nfcee_access.xml:system/etc/nfcee_access.xml \
+	packages/apps/Nfc/migrate_nfc.txt:system/etc/updatecmds/migrate_nfc.txt
 
-# GPS/location security configuration file
+# OMX
+PRODUCT_PACKAGES += \
+	libdashplayer \
+	libdivxdrmdecrypt \
+	libmm-omxcore \
+	libOmxAacEnc \
+	libOmxAmrEnc \
+	libOmxCore \
+	libOmxEvrcEnc \
+	libOmxQcelp13Enc \
+	libOmxSwVencMpeg4 \
+	libOmxVdec \
+	libOmxVdecHevc \
+	libOmxVenc \
+	libOmxVidEnc \
+	libOmxVdpp \
+	libstagefrighthw \
+	qcmediaplayer
+
+# Overlay
+DEVICE_PACKAGE_OVERLAYS += \
+	$(LOCAL_PATH)/overlay \
+    device/samsung/qcom-common/overlay
+
+# Permissions
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+	external/ant-wireless/antradio-library/com.dsi.ant.antradio_library.xml:system/etc/permissions/com.dsi.ant.antradio_library.xml \
+	frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
+	frameworks/native/data/etc/android.hardware.bluetooth.xml:system/etc/permissions/android.hardware.bluetooth.xml \
+	frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
+	frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
+	frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
+	frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml \
+	frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+	frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
+	frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
+	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
+	frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml \
+	frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
+	frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
+	frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
+	frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
+	frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:system/etc/permissions/android.hardware.sensor.stepcounter.xml \
+	frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:system/etc/permissions/android.hardware.sensor.stepdetector.xml \
+	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
+	frameworks/native/data/etc/android.hardware.touchscreen.multitouch.jazzhand.xml:system/etc/permissions/android.hardware.touchscreen.multitouch.jazzhand.xml \
+	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
+	frameworks/native/data/etc/android.hardware.usb.host.xml:system/etc/permissions/android.hardware.usb.host.xml \
+	frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
+	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+	frameworks/native/data/etc/android.software.print.xml:system/etc/permissions/android.software.print.xml \
+	frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
+	frameworks/native/data/etc/android.software.sip.xml:system/etc/permissions/android.software.sip.xml \
+	frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
+	frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml \
+	frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
 
-# RIL
+# Power HAL
+PRODUCT_PACKAGES += \
+	power.msm8916
+
+# Properties
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.telephony.ril_class=A5FURIL
+	ro.use_data_netmgrd=false \
+	dalvik.vm.heapgrowthlimit=128m \
+	ro.security.icd.flagmode=single \
+	ro.vendor.extension_library=libqti-perfd-client.so \
+	persist.radio.apm_sim_not_pwdn=1 \
+	persist.gps.qc_nlp_in_use=1 \
+	persist.loc.nlp_name=com.qualcomm.location \
+	ro.gps.agps_provider=1 \
+	ro.pip.gated=0 \
+	debug.sf.hw=1 \
+	debug.mdpcomp.logs=0 \
+	persist.hwc.mdpcomp.enable=true \
+	ro.telephony.call_ring.multiple=0
 
-# call dalvik heap config
-$(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
-$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
+# QRNGD
+PRODUCT_PACKAGES += \
+	qrngd \
+	qrngp
+
+# Screen density
+PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
+
+# Security config
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+
+# USB
+PRODUCT_PACKAGES += \
+	com.android.future.usb.accessory
+
+# Wifi
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/wifi/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+	$(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
+	$(LOCAL_PATH)/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
+	$(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
+	$(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/firmware/wlan/prima/WCNSS_qcom_cfg.ini \
+	$(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
+
+PRODUCT_PACKAGES += \
+	hostapd \
+	hostapd_cli \
+	libQWiFiSoftApCfg \
+	libqsap_sdk \
+	libwpa_client \
+	wcnss_service \
+	wpa_supplicant
+
+# Inhert dalvik heap values from aosp
+$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)

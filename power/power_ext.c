@@ -18,11 +18,11 @@
 #include <string.h>
 #include <fcntl.h>
 
-#define LOG_TAG "PowerHAL_H_Ext"
+#define LOG_TAG "PowerHAL_fortuna_Ext"
 #include <utils/Log.h>
 
 /* touchkeys */
-#define TK_POWER "/sys/class/input/input1/enabled"
+#define TK_POWER "/sys/class/input/input7/enabled"
 
 /* touchscreen */
 #define TS_POWER "/sys/class/input/input3/enabled"
