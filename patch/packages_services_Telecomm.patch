@@ -1,0 +1,43 @@
+This is https://github.com/TheWhisp/android_packages_services_Telecomm/commit/421a9134e1312833e63c51d26cc7e15db477ca17
+
+diff --git a/src/com/android/server/telecom/CallAudioManager.java b/src/com/android/server/telecom/CallAudioManager.java
+index 6010b70..f3cf08b 100644
+--- a/src/com/android/server/telecom/CallAudioManager.java
++++ b/src/com/android/server/telecom/CallAudioManager.java
+@@ -447,12 +447,17 @@ final class CallAudioManager extends CallsManagerListenerBase
+ 
+     private void setAudioParameters(Call call, int mode) {
+         switch (mode) {
++           case 0:
++               mAudioManager.setParameters("TFA_SETVOLUME=0");
++               mAudioManager.setParameters("realcall=off");
++               break;
+             case AudioManager.MODE_RINGTONE:
+             case AudioManager.MODE_IN_CALL:
+             case AudioManager.MODE_IN_COMMUNICATION:
+                 int phoneId = SubscriptionManager.getPhoneId(
+                         Integer.valueOf(call.getTargetPhoneAccount().getId()));
+                 mAudioManager.setParameters(phoneId == 1 ? "phone_type=cp2" : "phone_type=cp1");
++                mAudioManager.setParameters("realcall=on");
+                 break;
+             default:
+                 break;
+@@ -473,12 +478,17 @@ final class CallAudioManager extends CallsManagerListenerBase
+ 
+         Log.v(this, "Request to change audio mode from %d to %d", oldMode, newMode);
+ 
++        if(newMode == 0) {
++            mAudioManager.setParameters("TFA_SETVOLUME=0");
++            mAudioManager.setParameters("realcall=off");
++        }
++
+         if (oldMode != newMode) {
+             if (oldMode == AudioManager.MODE_IN_CALL && newMode == AudioManager.MODE_RINGTONE) {
+                 Log.i(this, "Transition from IN_CALL -> RINGTONE. Resetting to NORMAL first.");
+                 mAudioManager.setMode(AudioManager.MODE_NORMAL);
+             }
+-            if (call != null && call.getTargetPhoneAccount() != null && setMsimAudioParams) {
++            if (call != null && call.getTargetPhoneAccount() != null) {
+                 setAudioParameters(call, newMode);
+             }
+             mAudioManager.setMode(newMode);

@@ -32,10 +32,6 @@ PRODUCT_PACKAGES += \
 	com.dsi.ant.antradio_library \
 	libantradio
 
-# appops
-#PRODUCT_PACKAGES += \
-#	appops_policy.xml
-
 # Audio
 PRODUCT_PACKAGES += \
 	audio.a2dp.default \
@@ -47,8 +43,7 @@ PRODUCT_PACKAGES += \
 	libqcompostprocbundle \
 	libqcomvisualizer \
 	libqcomvoiceprocessing \
-	libtinycompress \
-	tinymix
+	libtinycompress
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/audio/Bluetooth_cal.acdb:system/etc/Bluetooth_cal.acdb \
@@ -58,9 +53,7 @@ PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/audio/Hdmi_cal.acdb:system/etc/Hdmi_cal.acdb \
 	$(LOCAL_PATH)/audio/Headset_cal.acdb:system/etc/Headset_cal.acdb \
 	$(LOCAL_PATH)/audio/Speaker_cal.acdb:system/etc/Speaker_cal.acdb \
-	$(LOCAL_PATH)/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
 	$(LOCAL_PATH)/audio/audio_policy.conf:system/etc/audio_policy.conf \
-	$(LOCAL_PATH)/audio/libaudioroute.so:system/lib/libaudioroute.so \
 	$(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
 # Boot jars
@@ -109,6 +102,7 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/gps/com.qualcomm.location.xml:system/etc/permissions/com.qualcomm.location.xml \
 	$(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
 	$(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
 	$(LOCAL_PATH)/gps/izat.conf:system/etc/izat.conf \
@@ -216,8 +210,7 @@ PRODUCT_PACKAGES += \
 
 # Overlay
 DEVICE_PACKAGE_OVERLAYS += \
-	$(LOCAL_PATH)/overlay \
-    device/samsung/qcom-common/overlay
+	$(LOCAL_PATH)/overlay
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -278,12 +271,19 @@ PRODUCT_PACKAGES += \
 	qrngp
 
 # Screen density
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
-PRODUCT_AAPT_PREF_CONFIG := xhdpi
+PRODUCT_AAPT_CONFIG := normal hdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 # Security config
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/configs/sec_config:system/etc/sec_config
+
+# TinyAlsa utils
+PRODUCT_PACKAGES += \
+    tinyplay \
+    tinycap \
+    tinymix \
+    tinypcminfo
 
 # USB
 PRODUCT_PACKAGES += \

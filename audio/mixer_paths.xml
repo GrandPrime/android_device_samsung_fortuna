@@ -766,43 +766,43 @@
     <path name="vr-sub-mic">
         <path name="sub-mic" />
         <ctl name="DEC1 Volume" value="84" />
-        <ctl name="ADC3 Volume" value="4" />
+        <ctl name="ADC3 Volume" value="40" />
     </path>
 
     <path name="vr-headset-mic">
         <path name="ear-mic" />
         <ctl name="DEC1 Volume" value="88" />
-        <ctl name="ADC2 Volume" value="4" />
+        <ctl name="ADC2 Volume" value="40" />
     </path>
 
     <path name="bargein1-main-mic">
         <path name="main-mic" />
         <ctl name="DEC1 Volume" value="82" />
-        <ctl name="ADC1 Volume" value="4" />
+        <ctl name="ADC1 Volume" value="40" />
     </path>
 
     <path name="bargein1-sub-mic">
         <path name="sub-mic" />
         <ctl name="DEC1 Volume" value="103" />
-        <ctl name="ADC3 Volume" value="4" />
+        <ctl name="ADC3 Volume" value="40" />
     </path>
 
     <path name="bargein1-earphone-mic">
         <path name="main-mic" />
         <ctl name="DEC1 Volume" value="82" />
-        <ctl name="ADC1 Volume" value="4" />
+        <ctl name="ADC1 Volume" value="40" />
     </path>
 
     <path name="bargein1-headset-mic">
         <path name="ear-mic" />
         <ctl name="DEC1 Volume" value="82" />
-        <ctl name="ADC2 Volume" value="4" />
+        <ctl name="ADC2 Volume" value="40" />
     </path>
 
     <path name="bargein2-main-mic">
         <path name="main-mic" />
         <ctl name="DEC1 Volume" value="82" />
-        <ctl name="ADC1 Volume" value="4" />
+        <ctl name="ADC1 Volume" value="40" />
     </path>
 
     <path name="bargein2-sub-mic">
@@ -814,19 +814,19 @@
     <path name="bargein2-earphone-mic">
         <path name="main-mic" />
         <ctl name="DEC1 Volume" value="82" />
-        <ctl name="ADC1 Volume" value="4" />
+        <ctl name="ADC1 Volume" value="40" />
     </path>
 
     <path name="bargein2-headset-mic">
         <path name="ear-mic" />
         <ctl name="DEC1 Volume" value="82" />
-        <ctl name="ADC2 Volume" value="4" />
+        <ctl name="ADC2 Volume" value="40" />
     </path>
 
     <path name="svoice-main-mic">
         <path name="main-mic" />
         <ctl name="DEC1 Volume" value="82" />
-        <ctl name="ADC1 Volume" value="4" />
+        <ctl name="ADC1 Volume" value="40" />
     </path>
 
     <path name="svoice-NS-mic">

@@ -1,0 +1,10 @@
+diff --git a/rootdir/init.zygote32.rc b/rootdir/init.zygote32.rc
+index 75961e6..8f2251e 100644
+--- a/rootdir/init.zygote32.rc
++++ b/rootdir/init.zygote32.rc
+@@ -5,4 +5,4 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
+     onrestart write /sys/power/state on
+     onrestart restart media
+     onrestart restart netd
+-
++    onrestart restart loc_launcher
