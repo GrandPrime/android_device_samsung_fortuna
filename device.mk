@@ -272,6 +272,10 @@ PRODUCT_PACKAGES += \
 	qrngd \
 	qrngp
 
+# Samsung Doze
+PRODUCT_PACKAGES += \
+	SamsungDoze
+
 # Screen density
 PRODUCT_AAPT_CONFIG := normal hdpi
 PRODUCT_AAPT_PREF_CONFIG := hdpi
