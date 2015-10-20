@@ -42,8 +42,7 @@ PRODUCT_PACKAGES += \
 	libaudio-resampler \
 	libqcompostprocbundle \
 	libqcomvisualizer \
-	libqcomvoiceprocessing \
-	libtinycompress
+	libqcomvoiceprocessing
 
 PRODUCT_COPY_FILES += \
 	$(LOCAL_PATH)/audio/Bluetooth_cal.acdb:system/etc/Bluetooth_cal.acdb \
@@ -71,16 +70,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     charger_res_images
 
-# Connectivity Engine support
-PRODUCT_PACKAGES += \
-	libcnefeatureconfig
-
 # Display
 PRODUCT_PACKAGES += \
 	copybit.msm8916 \
 	gralloc.msm8916 \
 	hwcomposer.msm8916 \
-	libtinyxml \
 	memtrack.msm8916
 
 # Ebtables
@@ -91,6 +85,8 @@ PRODUCT_PACKAGES += \
 
 # Filesystem
 PRODUCT_PACKAGES += \
+	e2fsck \
+	fsck.f2fs \
 	make_ext4fs \
 	setup_fs
 
@@ -175,6 +171,7 @@ PRODUCT_PACKAGES += \
 	libbson \
 	libcurl \
 	libxml2 \
+	Stk \
 	tcpdump
 
 # NFC
@@ -267,11 +264,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 	persist.hwc.mdpcomp.enable=true \
 	ro.telephony.call_ring.multiple=0
 
-# QRNGD
-PRODUCT_PACKAGES += \
-	qrngd \
-	qrngp
-
 # Samsung Doze
 PRODUCT_PACKAGES += \
 	SamsungDoze
@@ -286,10 +278,12 @@ PRODUCT_COPY_FILES += \
 
 # TinyAlsa utils
 PRODUCT_PACKAGES += \
-    tinyplay \
-    tinycap \
-    tinymix \
-    tinypcminfo
+	libtinycompress \
+	libtinyxml \
+	tinyplay \
+	tinycap \
+	tinymix \
+	tinypcminfo
 
 # USB
 PRODUCT_PACKAGES += \
