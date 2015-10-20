@@ -30,6 +30,7 @@ TARGET_ARCH := arm
 TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
+TARGET_CPU_CORTEX_A53 := true
 TARGET_CPU_SMP := true
 TARGET_CPU_VARIANT := cortex-a53
 TARGET_GLOBAL_CFLAGS += -mfpu=neon -mfloat-abi=softfp
@@ -42,7 +43,6 @@ TARGET_OTA_ASSERT_DEVICE := grandprimelte,fortuna,fortunave3g
 # Audio
 AUDIO_FEATURE_LOW_LATENCY_PRIMARY := true
 BOARD_USES_ALSA_AUDIO := true
-#AUDIO_FEATURE_DEEP_BUFFER_RINGTONE := true
 
 # Bluetooth
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := $(LOCAL_PATH)/bluetooth
@@ -75,21 +75,23 @@ TARGET_HW_DISK_ENCRYPTION := true
 ADDITIONAL_DEFAULT_PROPERTIES += \
 	camera2.portability.force_api=1
 
+# Dex
+ifeq ($(HOST_OS),linux)
+  ifeq ($(TARGET_BUILD_VARIANT),user)
+    ifeq ($(WITH_DEXPREOPT),)
+      WITH_DEXPREOPT := true
+    endif
+  endif
+endif
+
 # Display
 MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 TARGET_CONTINUOUS_SPLASH_ENABLED := true
-TARGET_HARDWARE_3D := false
 TARGET_USES_C2D_COMPOSITION := true
 TARGET_USES_ION := true
-TARGET_USES_NEW_ION_API :=true
-TARGET_USES_OVERLAY := true
 USE_OPENGL_RENDERER := true
-TARGET_HAVE_NEW_GRALLOC := true
-
-# Encryption
-TARGET_SWV8_DISK_ENCRYPTION := true
 
 # FM
 AUDIO_FEATURE_ENABLED_FM := true
@@ -132,6 +134,7 @@ TARGET_PROVIDES_LIBLIGHT := true
 MALLOC_IMPL := dlmalloc
 
 # Media
+TARGET_QCOM_MEDIA_VARIANT := caf
 TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
 
 # Partitions
@@ -147,20 +150,13 @@ TARGET_BOARD_PLATFORM := msm8916
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno306
 
 # Power
-TARGET_POWERHAL_SET_INTERACTIVE_EXT := $(LOCAL_PATH)/power/power_ext.c
 TARGET_POWERHAL_VARIANT := qcom
-
-# QC PROPRIETARY
-ifneq ($(QCPATH),)
-BOARD_USES_QCNE := true
-endif
 
 # Qualcomm support
 BOARD_USES_QCOM_HARDWARE := true
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
-COMMON_GLOBAL_CFLAGS += -DQCOM_BSP -DQCOM_HARDWARE
+COMMON_GLOBAL_CFLAGS += -DQCOM_BSP
 TARGET_USES_QCOM_BSP := true
-#HAVE_SYNAPTICS_I2C_RMI4_FW_UPGRADE := true
 
 # Recovery
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
@@ -171,35 +167,31 @@ TARGET_USERIMAGES_USE_EXT4 := true
 TARGET_USERIMAGES_USE_F2FS := true
 
 # RIL
-BOARD_RIL_CLASS := ../../../device/samsung/fortuna/ril/SamsungFortunaRIL.java
-TARGET_RIL_VARIANT := caf
+BOARD_RIL_CLASS := ../../../device/samsung/fortuna/ril/
 
 # SELinux
-# include device/qcom/sepolicy/sepolicy.mk
+include device/qcom/sepolicy/sepolicy.mk
 
-# BOARD_SEPOLICY_DIRS += \
-    # device/samsung/fortuna/sepolicy
+BOARD_SEPOLICY_DIRS += \
+    device/samsung/fortuna/sepolicy
 
-# BOARD_SEPOLICY_UNION := \
-	# app.te \
-	# cpboot-daemon.te \
-	# domain.te \
-	# exyrngd.te \
-	# file.te \
-	# file_contexts \
-	# gpsd.te \
-	# kernel.te \
-	# lmkd.te \
-	# init.te \
-	# macloader.te \
-	# recovery.te \
-	# system_server.te \
-	# rild.te \
-	# ueventd.te \
-	# uncrypt.te \
-	# vold.te \
-	# wpa.te
-
+BOARD_SEPOLICY_UNION += \
+    bluetooth_loader.te \
+    file_contexts \
+    mediaserver.te \
+    property_contexts \
+    system_app.te \
+    time_daemon.te \
+    vold.te \
+    bluetooth.te \
+    file.te \
+    kernel.te \
+    mm-qcamerad.te \
+    property.te \
+    rild.te \
+    system_server.te \
+    ueventd.te \
+    wcnss_service.te
 
 # Time services
 BOARD_USES_QC_TIME_SERVICES := true
